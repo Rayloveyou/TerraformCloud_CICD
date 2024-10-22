@@ -15,12 +15,13 @@ data "aws_ami" "ami" {
 
 resource "aws_instance" "server" {
   ami           = data.aws_ami.ami.id
-  instance_type = "t3.small"
+  instance_type = "t3.micro"
 
+ #thuộc tính giúp zero downtime
   lifecycle {
-    create_before_destroy = true
+    create_before_destroy = true  #zero downtime
   }
-
+ #nên cân nhắc khi dùng create_before_destroy, trong trường hợp EC2 thì có thể, tuy nhiên các resource như S3 (tên bucket phải duy nhất) thì không được dùng create_before_destroy
   tags = {
     Name = "Server"
   }
